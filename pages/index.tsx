@@ -14,10 +14,10 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     //const lucid = initLucid(walletStore.name)
-    if (walletStore.address != "") {
-      getAssets(walletStore.address)
-        .then((res: any) => { setNftList(res.addressInfo.nfts) })
-    }
+    // if (walletStore.address != "") {
+    //   getAssets(walletStore.address)
+    //     .then((res: any) => { setNftList(res.addressInfo.nfts) })
+    // }
   }, [walletStore.address])
 
   return (
