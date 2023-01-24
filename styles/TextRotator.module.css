@@ -1,0 +1,120 @@
+.scroller {
+    height: 85.5px;
+    /* line-height: 76px; */
+    position: relative;
+    overflow: hidden;
+    font-size: 40px;
+    text-align: center;
+  }
+  .word {
+    position: absolute;
+    top: 0;
+    animation: slide 6s infinite;
+    width: 100%;
+    left: 0;
+  }
+  @keyframes slide {
+    0% {
+      top: 0;
+    }
+    25% {
+      top: -85.5px;
+    }
+    50% {
+      top: -171px;
+    }
+    75% {
+      top: -256.5px;
+    }
+  }
+  
+  .scroller1 {
+    height: 65px;
+    /* line-height: 76px; */
+    position: relative;
+    overflow: hidden;
+    /* font-size: 15px;
+    background-color: red;
+    overflow-y: scroll; */
+  }
+  .word1 {
+    position: absolute;
+    top: 0;
+    animation: slide1 10s infinite;
+    width: 100%;
+    left: 0;
+  }
+  @keyframes slide1 {
+    0% {
+      top: 0;
+    }
+  
+    20% {
+      top: -55.5px;
+    }
+  
+    35% {
+      top: -105px;
+    }
+    50% {
+      top: -165px;
+    }
+  
+    65% {
+      top: -225px;
+    }
+  }
+  
+  @media screen and (max-width: 800px) {
+    .scroller {
+      height: 75.5px;
+    }
+  
+    @keyframes slide {
+      0% {
+        top: 0;
+      }
+      25% {
+        top: -75.5px;
+      }
+      50% {
+        top: -151px;
+      }
+      75% {
+        top: -226.5px;
+      }
+    }
+  
+    .scroller1 {
+      height: 50px;
+      text-align: center;
+    }
+    .word1 {
+      position: absolute;
+      top: 0;
+      animation: slide1 20s infinite;
+      width: 100%;
+      left: 0;
+    }
+    @keyframes slide1 {
+      0% {
+        top: 0;
+      }
+  
+      20% {
+        top: -35.5px;
+      }
+  
+      35% {
+        top: -85px;
+      }
+      50% {
+        top: -125px;
+      }
+  
+      65% {
+        top: -195px;
+      }
+    }
+  }
+  

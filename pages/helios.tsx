@@ -83,7 +83,7 @@ const multiSigUpdate = async () => {
         inline: Data.to(inputDatum),
       },
       {
-        lovelace: BigInt(50000000),
+        lovelace: BigInt(5000000),
       }
     )
     .complete();

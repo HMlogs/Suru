@@ -19,7 +19,10 @@
     "lucid-cardano": "^0.7.9",
     "next": "12.3.1",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "antd": "^4.22.3",
+    "axios": "^0.27.2",
+    "framer-motion": "^7.2.1"
   },
   "devDependencies": {
     "@types/node": "18.7.18",
