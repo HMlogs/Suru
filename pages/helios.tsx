@@ -1,5 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import { Row, Col, Button, Card, Divider } from "antd";
 import WalletConnect from '../components/WalletConnect'
 import { useStoreActions, useStoreState } from "../utils/store"
 import Link from 'next/link'
@@ -232,21 +233,70 @@ const multiSigClose = async () => {
 
   return (
     <div className="px-10">
-      <div className="navbar bg-base-100">
-        <div className="flex-1">
-          <Link href="/" className="btn btn-ghost normal-case text-xl">Cardano</Link>
-        </div>
-        <div className="flex-none">
+
+      <div className="navbar bg-base-100 text-center">
+        <div className="">
           <WalletConnect />
         </div>
       </div>
-      <div>Address: {walletStore.address}</div>
-      <div className='m-10'>
-        <p> Emurgo example
-        </p>
 
-      </div>
-      <div className="mx-40 my-10">
+      <div className="grid grid-cols-4 gap-4">
+          <div className="card w-96 bg-base-100 shadow-xl">
+            <figure className="px-10 pt-10 ">
+              <img src="https://placeimg.com/640/480/tech" alt="Shoes" className="rounded-xl" />
+            </figure>
+            <div className="card-body items-center text-center">
+              <h2 className="card-title">Proposal</h2>
+              <p>Fund new governance tools written in haskell</p>
+              <div className="card-actions">
+                <button className="btn btn-primary">Vote</button>
+              </div>
+            </div>
+          </div>
+
+          <div className="card w-96 bg-base-100 shadow-xl">
+            <figure className="px-10 pt-10 ">
+              <img src="https://placeimg.com/640/480/tech/sepia" alt="Shoes" className="rounded-xl" />
+            </figure>
+            <div className="card-body items-center text-center">
+              <h2 className="card-title">Proposal</h2>
+              <p>Fund new governance tools written in haskell</p>
+              <div className="card-actions">
+                <button className="btn btn-primary">Vote</button>
+              </div>
+            </div>
+          </div>
+
+          <div className="card w-96 bg-base-100 shadow-xl">
+            <figure className="px-10 pt-10 ">
+              <img src="https://placeimg.com/640/480/arch/grayscale" alt="Shoes" className="rounded-xl" />
+            </figure>
+            <div className="card-body items-center text-center">
+              <h2 className="card-title">Proposal</h2>
+              <p>Fund new governance tools written in haskell</p>
+              <div className="card-actions">
+                <button className="btn btn-primary">Vote</button>
+              </div>
+            </div>
+          </div>
+
+          <div className="card w-96 bg-base-100 shadow-xl">
+            <figure className="px-10 pt-10 ">
+              <img src="https://placeimg.com/640/480/tech/grayscale" alt="Shoes" className="rounded-xl" />
+            </figure>
+            <div className="card-body items-center text-center">
+              <h2 className="card-title">Proposal</h2>
+              <p>Fund new governance tools written in haskell</p>
+              <div className="card-actions">
+                <button className="btn btn-primary">Vote</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      
+      <div className="mx-40 my-10 place-items-center">
         <button className="btn btn-primary m-5" onClick={() => { multiSigUpdate() }} >Sign</button>
         <button className="btn btn-primary m-5" onClick={() => { multiSigClose() }} >Close</button>
         {/* <button className="btn btn-primary m-5" onClick={() => { lockUtxo() }} >Deposit</button> */}
