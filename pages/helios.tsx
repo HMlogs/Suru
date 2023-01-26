@@ -20,6 +20,7 @@ const Helios: NextPage = () => {
   useEffect(() => {
     if (lucid) {
       totalAmountOfAdaInScript();
+
     } else {
       initLucid(walletStore.name).then((Lucid: Lucid) => { setLucid(Lucid) })
     }
@@ -83,12 +84,24 @@ const Helios: NextPage = () => {
 
       const myWallet = await lucid?.wallet.address();
       const { paymentCredential } = lucid?.utils.getAddressDetails(myWallet)!;
-      const utxo = (await lucid.utxosAt(multiSigScriptAddress));
+      const iRequiredCount = BigInt(1);
+      const iKeys = [paymentCredential!.hash, '8fd2af318fe6fd7a8b2f56861b7dda312411281616b902953abf7121',
+        'ac4b6cbdde85cff6b95254df0d92ba3d6a559f92c297cd48488bb41b'];
+    
+      const inputDatum = new Constr(0, [
+        iRequiredCount,
+        iKeys
+      ]);
+
+      const inputDatumString = Data.to(inputDatum);
+      const inputDatumHash = lucid.utils.datumToHash(inputDatumString);
+      const utxo = (await lucid.utxosAt(multiSigScriptAddress)).
+                                filter(u => lucid.utils.datumToHash(u.datum as string) === inputDatumHash);
       if (!utxo) throw new Error("Spending script utxo not found");
 
       const tx = await lucid
         .newTx()
-        .collectFrom([utxo[10]], redeemer)
+        .collectFrom(utxo, redeemer)
         .attachSpendingValidator(multiSigScript)
         .addSignerKey(paymentCredential?.hash!)
         .complete();
