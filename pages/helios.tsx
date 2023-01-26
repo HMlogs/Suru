@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import Link from 'next/link';
 import WalletConnect from '../components/WalletConnect'
 import { useStoreState } from "../utils/store"
 import { useState, useEffect } from 'react'
@@ -101,6 +102,13 @@ const Helios: NextPage = () => {
   return (
 
     <div className="px-10">
+
+
+      <div>
+        <Link href="/">
+          <button className="btn btn-primary m-5 justify-center" >HOME</button>
+        </Link>
+      </div>
 
       <div className="text-center pt-8">
         <div className="">
@@ -228,11 +236,6 @@ const Helios: NextPage = () => {
 
         </div>
 
-      
-      <div className="mx-40 my-10 place-items-center">
-        <button className="btn btn-primary m-5" onClick={() => { multiSigUpdate() }} >Sign</button>
-        <button className="btn btn-primary m-5" onClick={() => { multiSigClose() }} >Close</button>
-      </div>
     </div>
   )
 }
