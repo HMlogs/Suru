@@ -4,7 +4,9 @@ import WalletConnect from '../components/WalletConnect'
 import { useStoreState } from "../utils/store"
 import { useState, useEffect } from 'react'
 import initLucid from '../utils/lucid'
-import { Lucid, Constr, SpendingValidator, Data } from 'lucid-cardano'
+import { Lucid, Constr, SpendingValidator, Data, Assets } from 'lucid-cardano'
+import { Blockfrost } from 'lucid-cardano/types/src/core/wasm_modules/cardano_multiplatform_lib_web/cardano_multiplatform_lib'
+import { getAssets } from "../utils/cardano";
 
 const Helios: NextPage = () => {
   const walletStore = useStoreState((state: any) => state.wallet)
@@ -34,11 +36,10 @@ const Helios: NextPage = () => {
   const multiSigLockFunds = async () => {
     if (lucid) {
 
- 
       const multiSigScriptAddress: any = lucid.utils.validatorToAddress(
         multiSigScript,
       );
-
+    
       //datum
       const myWallet = await lucid?.wallet.address();
       const { paymentCredential } = lucid?.utils.getAddressDetails(myWallet)!;
@@ -48,8 +49,6 @@ const Helios: NextPage = () => {
     
         // const iKeys = [new Constr (0, [paymentCredential!.hash]), 
         //         new Constr (0, ["8fd2af318fe6fd7a8b2f56861b7dda312411281616b902953abf7121"])]
-    
-    
       const inputDatum = new Constr(0, [
         iRequiredCount,
         iKeys
@@ -71,7 +70,6 @@ const Helios: NextPage = () => {
       const signedTx = await tx.sign().complete();
       const txHash = await signedTx.submit();
       setMyTxHash(txHash);
-      return txHash;
     }
   }
 
@@ -96,6 +94,75 @@ const Helios: NextPage = () => {
 
       const signedTx = await tx.sign().complete();
       await signedTx.submit();
+    }
+  }
+
+  const hasEligableNFT = async () => {
+    if (lucid) {
+
+      const myWallet = await lucid?.wallet.address();
+      const hasNft = (await lucid.utxosAt(myWallet))
+                        .filter((utxo) => 
+                          Object.keys(utxo.assets).some((asset) => 
+                            asset.startsWith('d07ecd3fa808b6757cea92b3da14c5ccb8587f0e9e98e5c5d16bb2d9'))).length > 0;
+      console.log(hasNft);
+    }
+  }
+
+  const totalAmountOfAdaInScript = async () => {
+    if (lucid) {
+      const multiSigScriptAddress: any = lucid.utils.validatorToAddress(
+        multiSigScript,
+      );
+      const myWallet = await lucid?.wallet.address();
+
+      const totalAmountofADAScript = await fetch(
+        `https://cardano-preprod.blockfrost.io/api/v0/addresses/${multiSigScriptAddress}`,
+        {
+          headers: {
+            // Your Blockfrost API key
+            project_id: process.env.NEXT_PUBLIC_BLOCKFROST!,
+            'Content-Type': 'application/json'
+          }
+        }
+      ).then(res => res.json());
+
+      const totalAmountofADAMyWallet = await fetch(
+        `https://cardano-preprod.blockfrost.io/api/v0/addresses/${myWallet}`,
+        {
+          headers: {
+            // Your Blockfrost API key
+            project_id: process.env.NEXT_PUBLIC_BLOCKFROST!,
+            'Content-Type': 'application/json'
+          }
+        }
+      ).then(res => res.json());
+
+      const nfts = await fetch(
+        `https://cardano-preprod.blockfrost.io/api/v0/assets/policy/${'d07ecd3fa808b6757cea92b3da14c5ccb8587f0e9e98e5c5d16bb2d9'}`,
+        {
+          headers: {
+            // Your Blockfrost API key
+            project_id: process.env.NEXT_PUBLIC_BLOCKFROST!,
+            'Content-Type': 'application/json'
+          }
+        }
+      ).then(res => res.json());
+
+      const myWalletBalance: string[] = Object.values(totalAmountofADAMyWallet['amount'][0]);
+      let balance2 = (parseInt(myWalletBalance[1]) / 1000000).toFixed(2);
+      console.log('MY WALLET BALANCE IN LOVELACE: ' + myWalletBalance);
+      console.log("TOTAL BALANCE OF SCRIPT IN ADA:" + balance2.toString());
+
+      console.log(nfts[0]['quantity']);
+      console.log(totalAmountofADAScript);
+
+      const totalScriptBalance: string[] = Object.values(totalAmountofADAScript['amount'][0]);
+      let balance = (parseInt(totalScriptBalance[1]) / 1000000).toFixed(2);
+      console.log("TOTAL BALANCE OF SCRIPT IN LOVELACE:" + totalScriptBalance);
+      console.log("TOTAL BALANCE OF SCRIPT IN ADA:" + balance.toString());
+      let lbl = document.getElementById('lblEmp');
+      lbl!.innerText= balance.toString();
     }
   }
 
@@ -134,7 +201,7 @@ const Helios: NextPage = () => {
               <h2 className="card-title">Proposal 1</h2>
               <p>Fund new governance tools written in haskell</p>
               <div className="card-actions">
-                <button className="btn btn-primary">Vote</button>
+                <button className="btn btn-primary" >Vote</button>
               </div>
             </div>
 
@@ -236,6 +303,15 @@ const Helios: NextPage = () => {
 
         </div>
 
+      
+      <div className="mx-40 my-10 place-items-center">
+        <button className="btn btn-primary m-5" onClick={() => { multiSigLockFunds() }} >Sign</button>
+        <button className="btn btn-primary m-5" onClick={() => { multiSigClose() }} >Close</button>
+        <button className="btn btn-primary m-5" onClick={() => { hasEligableNFT() }} >hasNFT</button>
+        <button className="btn btn-primary m-5" onClick={() => { totalAmountOfAdaInScript() }} >Total amount</button>
+        <label id="lblEmp">N/A</label>
+        <div></div>
+      </div>
     </div>
   )
 }
