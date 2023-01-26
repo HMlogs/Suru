@@ -9,6 +9,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-color: #0070f3;
   align-items: center;
 }
 
@@ -88,8 +89,8 @@
 .card:hover,
 .card:focus,
 .card:active {
-  color: #0070f3;
-  border-color: #0070f3;
+  color: #ffffff;
+  border-color: #ffffff;
 }
 
 .card h2 {
@@ -118,10 +119,10 @@
 @media (prefers-color-scheme: dark) {
   .card,
   .footer {
-    border-color: #222;
+    border-color: rgb(255, 255, 255);
   }
   .code {
-    background: #111;
+    background: rgb(255, 255, 255);
   }
   .logo img {
     filter: invert(1);
