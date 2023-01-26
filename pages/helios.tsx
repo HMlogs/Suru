@@ -117,7 +117,7 @@ const Helios: NextPage = () => {
       </div>
 
       <div className="flex items-center justify-center my-10">
-        <button className="btn btn-primary m-5" onClick={() => { multiSigUpdate() }} >Sign</button>
+        <button className="btn btn-primary m-5" onClick={() => { multiSigClose() }} >Sign</button>
         <button className="btn btn-primary m-5" onClick={() => { multiSigClose() }} >Close</button>
         {/* <button className="btn btn-primary m-5" onClick={() => { lockUtxo() }} >Deposit</button> */}
         {/* <button className="btn btn-secondary m-5" onClick={() => { redeemUtxo() }}>Unlock</button> */}
