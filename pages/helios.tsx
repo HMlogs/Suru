@@ -15,10 +15,11 @@ const Helios: NextPage = () => {
   const [script, setScript] = useState<SpendingValidator>()
   const [scriptAddress, setScriptAddress] = useState("")
   const [myTxHash, setMyTxHash] = useState("")
+  const [show, setShow] = useState();
 
   useEffect(() => {
     if (lucid) {
-
+      totalAmountOfAdaInScript();
     } else {
       initLucid(walletStore.name).then((Lucid: Lucid) => { setLucid(Lucid) })
     }
@@ -32,7 +33,7 @@ const Helios: NextPage = () => {
 
   const redeemer =
     Data.to(new Constr(1, []))
-
+    
   const multiSigLockFunds = async () => {
     if (lucid) {
 
@@ -161,16 +162,16 @@ const Helios: NextPage = () => {
       let balance = (parseInt(totalScriptBalance[1]) / 1000000).toFixed(2);
       console.log("TOTAL BALANCE OF SCRIPT IN LOVELACE:" + totalScriptBalance);
       console.log("TOTAL BALANCE OF SCRIPT IN ADA:" + balance.toString());
-      let lbl = document.getElementById('lblEmp');
-      lbl!.innerText= balance.toString();
+      let lbl = document.getElementById('balanceElem');
+      lbl!.innerText= balance.toString() + " ADA";
     }
   }
+
+
 
   return (
 
     <div className="px-10">
-
-
       <div>
         <Link href="/">
           <button className="btn btn-primary m-5 justify-center" >HOME</button>
@@ -184,8 +185,8 @@ const Helios: NextPage = () => {
       </div>
 
       <div className="flex items-center justify-center my-10">
-        <button className="btn btn-primary m-5" onClick={() => { multiSigClose() }} >Sign</button>
-        <button className="btn btn-primary m-5" onClick={() => { multiSigClose() }} >Close</button>
+        {/* <button className="btn btn-primary m-5" onClick={() => { multiSigClose() }} >Sign</button>
+        <button className="btn btn-primary m-5" onClick={() => { multiSigClose() }} >Close</button> */}
         {/* <button className="btn btn-primary m-5" onClick={() => { lockUtxo() }} >Deposit</button> */}
         {/* <button className="btn btn-secondary m-5" onClick={() => { redeemUtxo() }}>Unlock</button> */}
         {/* <button className="btn btn-secondary m-5" onClick={() => { mintNft() }}>Mint NFT</button> */}
@@ -201,16 +202,20 @@ const Helios: NextPage = () => {
               <h2 className="card-title">Proposal 1</h2>
               <p>Fund new governance tools written in haskell</p>
               <div className="card-actions">
-                <button className="btn btn-primary" >Vote</button>
+              <button className="btn btn-primary" onClick={() => { hasEligableNFT() }}>Vote</button>
+                {/* <div id="proposalActions" >
+                <button className="btn btn-primary m-5" onClick={() => { multiSigLockFunds() }} >Lock Funds</button>
+                 <button className="btn btn-primary m-5" onClick={() => { multiSigClose() }} >Redeem</button>
+                </div> */}
               </div>
             </div>
 
             <div className="stat">
               <div className="stat-title">Balance</div>
-              <div className="stat-value">9,000 Ada</div>
+              <div id= "balanceElem" className="stat-value"></div>
               <div className="stat-actions">
-                <button className="btn btn-sm btn-success">Add funds</button>
-                <button className="btn btn-sm">Withdraw</button>
+                <button className="btn btn-sm btn-success"onClick={() => { multiSigLockFunds() }}>Add funds</button>
+                <button className="btn btn-sm" onClick={() => { multiSigClose() }}>Withdraw</button>
               </div>
             </div>
             
@@ -305,12 +310,11 @@ const Helios: NextPage = () => {
 
       
       <div className="mx-40 my-10 place-items-center">
-        <button className="btn btn-primary m-5" onClick={() => { multiSigLockFunds() }} >Sign</button>
-        <button className="btn btn-primary m-5" onClick={() => { multiSigClose() }} >Close</button>
-        <button className="btn btn-primary m-5" onClick={() => { hasEligableNFT() }} >hasNFT</button>
+
+        {/* <button className="btn btn-primary m-5" onClick={() => { hasEligableNFT() }} >hasNFT</button>
         <button className="btn btn-primary m-5" onClick={() => { totalAmountOfAdaInScript() }} >Total amount</button>
         <label id="lblEmp">N/A</label>
-        <div></div>
+        <div></div> */}
       </div>
     </div>
   )
