@@ -164,6 +164,10 @@ const Helios: NextPage = () => {
       console.log("TOTAL BALANCE OF SCRIPT IN ADA:" + balance.toString());
       let lbl = document.getElementById('balanceElem');
       lbl!.innerText= balance.toString() + " ADA";
+
+      const numberOfUtxos = (await lucid.utxosAt(multiSigScriptAddress)).length;
+      let lblVotes = document.getElementById('votesElem');
+      lblVotes!.innerText= numberOfUtxos.toString();
     }
   }
 
@@ -221,7 +225,7 @@ const Helios: NextPage = () => {
             
             <div className="stat">
             <div className="stat-title">Number of Votes</div>
-              <div className="stat-value">23</div>
+              <div id = "votesElem" className="stat-value"></div>
             </div>
           </div>
 
